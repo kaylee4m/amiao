@@ -8,7 +8,7 @@ export function getList(params) {
   //   method: 'get',
   //   params
   // })
-  axios.get('Access-Control-Allow-Origin: http://localhost:8080/camera_before')
+  axios.get('http://localhost:8080/camera_before')
     .then(function(response) {
       console.log('===========')
       console.log(response)

@@ -6,7 +6,7 @@ from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from redis import StrictRedis
-
+from flask_cors import *
 
 from configs import config
 
@@ -14,6 +14,12 @@ from configs import config
 db = SQLAlchemy()
 redis_store = None   # type:# StrictRedis
 # redis_store:StrictRedis = None
+def after_request(response):
+    response.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin') or 'http://127.0.0.1:9528'
+    response.headers['Access-Control-Allow-Methods'] = 'PUT,GET,POST,DELETE'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization,Accept,Origin,Referer,User-Agent'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 def setup_log(config_name):
     # 设置日志的记录等级
@@ -33,6 +39,7 @@ def create_app(config_name):
 
     # 创建flask对象
     app = Flask(__name__)
+    # CORS(app, supports_credentials=True)
     # 国际化配置
     app.config['BABEL_DEFAULT_LOCALE'] = 'en'
     app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
@@ -63,7 +70,7 @@ def create_app(config_name):
 
     # 设置Session保存位置
     Session(app)
-
+    CORS(app)
     # 注册蓝图
 
     from info.modules.camera import camera_blu
