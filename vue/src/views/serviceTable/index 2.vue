@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <!-- <div>z</div> -->
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -9,13 +8,12 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="IP" width="125">
-        <template slot-scope="list">
-          {{data[list.ip]}}
-          <!-- {{ list.ip}} -->
+      <el-table-column align="center" label="ID" width="95">
+        <template slot-scope="scope">
+          {{ scope.$index }}
         </template>
       </el-table-column>
-      <!-- <el-table-column label="Location">
+      <el-table-column label="Location">
         <template slot-scope="scope">
           {{ scope.ip }}
         </template>
@@ -44,8 +42,7 @@
         <template slot-scope="scope">
           <span>{{ scope.row.operation }}</span>
         </template>
-      </el-table-column> -->
-
+      </el-table-column>
       <!-- <el-table-column align="center" prop="created_at" label="Display_time" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
@@ -85,7 +82,6 @@ export default {
       getList().then((res) => {
         console.log(res)
       this.list = res.data.data;
-        console.log(res.data.data)
       this.listLoading = false
       })
       // this.list=getList()
